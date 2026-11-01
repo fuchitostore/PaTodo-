@@ -52,6 +52,9 @@ h2{font-weight:900;font-size:clamp(30px,9vw,42px);line-height:1;letter-spacing:-
 .need li{cursor:pointer;list-style:none;margin-left:-18px}.need li::before{content:"☐ "}.need li.ck{text-decoration:line-through;color:var(--mut)}.need li.ck::before{content:"☑ "}#fz{margin-right:6px;background:none;border:1.5px solid var(--line);border-radius:99px;padding:6px 14px;font-weight:700;font-size:14px}#pf select{width:100%;font:inherit;font-weight:700;border:2px solid var(--ink);border-radius:12px;background:var(--bg);color:var(--ink);padding:10px 12px;margin:0 0 12px}
 #setw{position:relative}#gear{background:none;border:1.5px solid var(--line);border-radius:99px;width:40px;height:40px;font-size:20px;line-height:1;padding:0}#setp{position:absolute;right:0;top:48px;z-index:20;background:var(--bg);border:2px solid var(--ink);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:150px}#setp[hidden]{display:none}#setp button{margin:0!important;text-align:center}#fz{font-size:18px!important}
 .rk{display:inline-block;border:2px solid var(--ink);border-radius:6px;padding:2px 10px;font-weight:800;font-size:14px;margin-left:6px}.fbb{border:2px solid var(--ink);border-radius:99px;background:var(--bg);color:var(--ink);padding:8px 18px;font:inherit;font-weight:700}.steps li.lk{opacity:.4}.sfb{display:block;font-weight:800;font-size:14px;margin-top:4px;color:var(--ink)}
+#sos{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:30;width:58px;height:58px;border-radius:50%;background:#d00000;color:#fff;border:3px solid #111;font-weight:900;font-size:16px;padding:0}#sosp{position:fixed;left:12px;right:12px;bottom:86px;z-index:30;background:var(--bg);color:var(--ink);border:3px solid var(--ink);border-radius:14px;padding:14px;max-height:70vh;overflow:auto}#sosp[hidden]{display:none}#sosp a.call{display:block;background:#d00000;color:#fff;text-decoration:none;font-weight:900;font-size:20px;text-align:center;border-radius:12px;padding:12px;margin:8px 0 2px}#sosp p{margin:2px 0 10px}.nol h3{margin:14px 0 4px}.nol li{margin:4px 0 4px 18px;cursor:default}
+#mas{height:40px;border:1.5px solid var(--line);border-radius:99px;padding:0 14px;font-weight:700;background:none;margin-right:6px}#more[hidden]{display:none}
+#mas.od::after{content:" ●";color:#d00000}.mtc{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0}.mtc b{display:block}.mtc .acts{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}.mtc .fbb{padding:6px 12px;font-size:15px}#mtf select,#mtf input{font:inherit;border:2px solid var(--ink);border-radius:10px;background:var(--bg);color:var(--ink);padding:8px;margin:4px 0;width:100%;box-sizing:border-box}
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#ffd60a"><meta name="apple-mobile-web-app-capable" content="yes"></head>
 <body>
@@ -631,5 +634,67 @@ document.addEventListener('click',function(e){var l=e.target.closest('#guide .st
 var f=locks();if(f>-1&&i>f){e.stopPropagation();var m=document.getElementById('sfm');m.textContent=Z('Primero confirma el paso ','First confirm step ')+(f+1)+Z(' (seguridad) antes de seguir.',' (safety) before continuing.');m.hidden=false;clearTimeout(m._t);m._t=setTimeout(function(){m.hidden=true},4000);return}
 setTimeout(locks,0)},true);
 })();</script>
+<script>(function(){
+var Z=function(a,b){return L==='en'?b:a},D=document,$=function(i){return D.getElementById(i)};
+D.body.insertAdjacentHTML('beforeend','<button id="sos" type="button" aria-label="SOS">SOS</button><div id="sosp" hidden></div>');
+function sosr(){$('sosp').innerHTML='<b style="font-size:19px">'+Z('Emergencias','Emergencies')+'</b>'
++'<a class="call" href="tel:911">📞 911</a><p>'+Z('Incendio, fuga de gas, descarga eléctrica, accidente o herido. Policía, bomberos, Cruz Roja y Protección Civil.','Fire, gas leak, electric shock, accident or injury. Police, firefighters, Red Cross and Civil Protection.')+'</p>'
++'<a class="call" href="tel:071">📞 071 CFE</a><p>'+Z('Cable caído, chispas en la calle o apagón. No te acerques ni lo toques.','Fallen wire, sparks in the street or outage. Do not go near or touch it.')+'</p>'
++'<div class="warn">'+Z('Si huele a gas: no prendas ni apagues luces, no uses el celular dentro, abre ventanas, sal de la casa y llama al 911 desde afuera.','If you smell gas: do not switch lights on or off, do not use your phone inside, open windows, leave the house and call 911 from outside.')+'</div>'}
+sosr();$('sos').addEventListener('click',function(e){e.stopPropagation();$('sosp').hidden=!$('sosp').hidden});
+D.addEventListener('click',function(e){if(!$('sosp').hidden&&!e.target.closest('#sosp'))$('sosp').hidden=true});
+var N=[['Electricidad','Electricity',['Hay chispas, olor a quemado o cables derretidos o calientes.','La pastilla (breaker) se baja sola una y otra vez.','Tienes que tocar el medidor o los cables de la calle: eso es de CFE.','No puedes comprobar con un probador que ya no hay corriente.'],['There are sparks, a burning smell or melted or hot wires.','The breaker trips again and again.','You would have to touch the meter or street wires: that is CFE\'s job.','You cannot confirm with a tester that the power is off.']],
+['Gas','Gas',['Huele a gas: no repares nada, sal y llama al 911.','La manguera o el regulador están rotos, resecos o flojos.','El tanque está abollado, oxidado o con fuga.','El boiler da flama amarilla, hollín o manchas negras.'],['You smell gas: repair nothing, leave and call 911.','The hose or regulator is broken, dry or loose.','The tank is dented, rusty or leaking.','The water heater shows a yellow flame, soot or black stains.']],
+['Agua y drenaje','Water and drains',['La fuga está dentro de la pared, el techo o el piso.','La mancha de humedad crece o hay moho.','El drenaje regresa agua en varios baños a la vez.'],['The leak is inside a wall, ceiling or floor.','A damp patch is growing or there is mold.','Drains back up in several bathrooms at once.']],
+['Carro','Car',['Frenos: pedal blando, ruido metálico o el carro se va de lado al frenar.','Dirección floja o con vibración fuerte.','Luz roja en el tablero o el motor se calienta otra vez.','Huele a gasolina o hay fuga de combustible.','Tendrías que meterte debajo del carro sin soportes (burros) seguros.'],['Brakes: soft pedal, metallic noise or the car pulls to one side.','Loose or strongly vibrating steering.','A red dashboard light or the engine overheats again.','You smell fuel or there is a fuel leak.','You would have to get under the car without safe stands.']]];
+$('tbgo').insertAdjacentHTML('beforebegin','<button class="row" id="nogo" type="button"></button><div id="no" hidden></div>');
+function nor(){$('nogo').innerHTML='<b>'+Z('Cuándo NO hacerlo tú','When NOT to do it yourself')+'</b><span>'+Z('Señales para llamar a un profesional','Signs to call a professional')+'</span>';
+$('no').innerHTML='<div class="need nol">'+N.map(function(c){return '<h3>'+Z(c[0],c[1])+'</h3><ul>'+(L==='en'?c[3]:c[2]).map(function(t){return '<li>'+t+'</li>'}).join('')+'</ul>'}).join('')+'<div class="warn">'+Z('Si dudas, no lo hagas. Ahorrar dinero no vale tu seguridad.','If in doubt, do not do it. Saving money is not worth your safety.')+'</div></div>'}
+nor();$('nogo').addEventListener('click',function(){$('no').hidden=!$('no').hidden});
+$('lang').addEventListener('click',function(){setTimeout(function(){sosr();nor()},0)});
+})();</script>
+<script>(function(){
+var Z=function(a,b){return L==='en'?b:a},D=document,$=function(i){return D.getElementById(i)};
+$('gear').insertAdjacentHTML('beforebegin','<button id="mas" type="button"></button>');
+$('home').insertAdjacentHTML('afterend','<div id="more" hidden><button class="back" id="mbk" type="button"></button><h1 id="mh"></h1></div>');
+var m=$('more');['nogo','no','tbgo','tb'].forEach(function(id){m.appendChild($(id))});
+function t(){$('mas').textContent=Z('Más','More');$('mbk').textContent=Z('← Todas las guías','← All guides');$('mh').textContent=Z('Más para ti','More for you')}
+t();
+$('mas').addEventListener('click',function(){$('home').hidden=true;$('guide').hidden=true;m.hidden=false;scrollTo(0,0)});
+$('mbk').addEventListener('click',function(){m.hidden=true;$('home').hidden=false;scrollTo(0,0)});
+$('lang').addEventListener('click',function(){setTimeout(t,0)});
+})();</script>
+<script>(function(){
+var Z=function(a,b){return L==='en'?b:a},D=document,$=function(i){return D.getElementById(i)},K='patodo_mt',E=[];
+try{E=JSON.parse(localStorage.getItem(K)||'[]')}catch(e){}
+function sv(){try{localStorage.setItem(K,JSON.stringify(E))}catch(e){}}
+var P=[['Limpiar el filtro del clima','Clean the AC filter',1,'clima','casa'],['Revisar manguera y regulador del gas','Check gas hose and regulator',6,'gas','casa'],['Revisar el boiler','Check the water heater',12,'boiler','casa'],['Lavar tinaco y cisterna','Wash water tank and cistern',6,'','casa'],['Limpiar atrás del refri','Clean behind the fridge',6,'refri','casa'],['Revisar pastillas (breaker)','Check the breakers',12,'pastilla','casa'],['Limpiar la campana de la cocina','Clean the kitchen hood',3,'campana','casa'],
+['Cambio de aceite','Oil change',6,'aceite','carro'],['Presión de llantas','Tire pressure',1,'presion','carro'],['Revisar niveles (anticongelante, frenos)','Check fluid levels',1,'niveles','carro'],['Cambiar plumas','Replace wipers',12,'plumas','carro'],['Revisar batería y bornes','Check battery and terminals',6,'bornes','carro'],['Cambiar filtro de aire','Replace air filter',12,'filtroaire','carro'],['Revisar frenos con mecánico','Brake check with a mechanic',12,'','carro']];
+function iso(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+function nx(e){var a=e.l.split('-');return new Date(+a[0],+a[1]-1+e.m,+a[2])}
+function dd(e){var t=new Date();t=new Date(t.getFullYear(),t.getMonth(),t.getDate());return Math.round((nx(e)-t)/864e5)}
+function nm(e){return e.p>=0?Z(P[e.p][0],P[e.p][1]):e.n}
+function od(){$('mas').classList.toggle('od',E.some(function(e){return dd(e)<0}))}
+function st(e){var d=dd(e);return d<0?'🔴 '+Z('Vencido hace ','Overdue by ')+(-d)+Z(' días',' days'):d===0?'🟡 '+Z('Toca hoy','Due today'):d<=7?'🟡 '+Z('Toca en ','Due in ')+d+Z(' días',' days'):'🟢 '+Z('Faltan ','In ')+d+Z(' días',' days')}
+function r(){var h='<div class="need">';
+var o=E.map(function(e,i){return[e,i]}).sort(function(a,b){return dd(a[0])-dd(b[0])});
+h+=o.length?o.map(function(x){var e=x[0],g=e.p>=0&&P[e.p][3];return '<div class="mtc"><b>'+nm(e)+'</b><span class="meta">'+Z('Cada ','Every ')+e.m+Z(' mes(es)',' month(s)')+' · '+st(e)+'</span><div class="acts"><button class="fbb" type="button" data-a="done" data-i="'+x[1]+'">'+Z('Ya lo hice','Done')+'</button>'+(g?'<button class="fbb" type="button" data-a="guide" data-g="'+g+'">'+Z('Ver guía','Guide')+'</button>':'')+'<button class="fbb" type="button" data-a="del" data-i="'+x[1]+'">'+Z('Quitar','Remove')+'</button></div></div>'}).join(''):'<p>'+Z('Aún no agregas nada. Elige abajo qué quieres cuidar.','Nothing added yet. Pick below what you want to look after.')+'</p>';
+h+='<div id="mtf"><b>'+Z('Agregar','Add')+'</b><select id="mts"><optgroup label="'+Z('Casa','Home')+'">'+P.map(function(q,i){return q[4]==='casa'?'<option value="'+i+'">'+Z(q[0],q[1])+'</option>':''}).join('')+'</optgroup><optgroup label="'+Z('Carro','Car')+'">'+P.map(function(q,i){return q[4]==='carro'?'<option value="'+i+'">'+Z(q[0],q[1])+'</option>':''}).join('')+'</optgroup><option value="-1">'+Z('Otra cosa…','Something else…')+'</option></select><div id="mtc" hidden><input id="mtn" placeholder="'+Z('Nombre (ej. Cambiar filtro de agua)','Name (e.g. Change water filter)')+'"><input id="mtm" type="number" min="1" max="60" placeholder="'+Z('Cada cuántos meses','Every how many months')+'"></div><label class="meta">'+Z('¿Cuándo fue la última vez?','When was the last time?')+'</label><input id="mtd" type="date" value="'+iso(new Date())+'"><button class="fbb" type="button" data-a="add">'+Z('Agregar','Add')+'</button></div></div>';
+$('mt').innerHTML=h;od()}
+$('nogo').insertAdjacentHTML('beforebegin','<button class="row" id="mtgo" type="button"></button><div id="mt" hidden></div>');
+function lb(){$('mtgo').innerHTML='<b>'+Z('Mis cosas y su mantenimiento','My things and their maintenance')+'</b><span>'+Z('Mantenimiento de tus cosas, con fechas','Maintenance of your things, with dates')+'</span>'}
+lb();r();
+$('mtgo').addEventListener('click',function(){$('mt').hidden=!$('mt').hidden});
+$('mt').addEventListener('change',function(e){if(e.target.id==='mts')$('mtc').hidden=e.target.value!=='-1'});
+$('mt').addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.dataset.a,i=+b.dataset.i;
+if(a==='done'){E[i].l=iso(new Date())}
+else if(a==='del'){E.splice(i,1)}
+else if(a==='guide'){$('more').hidden=true;open(b.dataset.g);return}
+else if(a==='add'){var v=+$('mts').value,d=$('mtd').value||iso(new Date());
+if(v>=0)E.push({p:v,m:P[v][2],l:d});else{var n=$('mtn').value.trim(),m=+$('mtm').value;if(!n||!(m>0))return;E.push({p:-1,n:n,m:m,l:d})}}
+sv();r()});
+$('lang').addEventListener('click',function(){setTimeout(function(){lb();var o=$('mt').hidden;r();$('mt').hidden=o},0)});
+})();</script>
+<script>(function(){var m=document.getElementById('more'),a=document.getElementById('mtgo');['pfgo','pf','rmgo','rm'].forEach(function(id){var e=document.getElementById(id);if(e)m.insertBefore(e,a)})})();</script>
 </body>
 </html>
