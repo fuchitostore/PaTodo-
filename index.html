@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#fff;--ink:#111;--mut:#5d5d5d;--line:#e3e3e3;--acc:#ffd60a;--on-acc:#111;--soft:#f4f4f4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#050505;--ink:#f5f5f5;--mut:#a3a3a3;--line:#2a2a2a;--soft:#161616;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#050505;--ink:#f5f5f5;--mut:#a3a3a3;--line:#2a2a2a;--soft:#161616;color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -234,7 +233,7 @@ var DXE={0:{t:'My AC is not cooling',k:'ac air conditioner conditioning cooling 
 6:{t:'I have no light at a bulb or outlet',k:'light bulb outlet socket switch lamp power blackout',c:[['The bulb is burned out','Try another bulb that you know works.','Replace it.'],['The breaker tripped','Several places have no power at once.','Switch it back on. If it trips again by itself, there is a problem: call an electrician.'],['The light switch is damaged','The bulb works, but the switch crackles or does not click.','Replace it with the breaker off.'],['The outlet has a loose wire','Only that outlet has no power.','Switch off the breaker and check the outlet screws.'],['The wiring is damaged','It smells burnt or there are sparks.','Do not touch it: switch off the breaker and call an electrician.']]}};
 function tr(g){if(L!=='en'||!GE[g.id])return g;var e=GE[g.id],o={},x;for(x in g)o[x]=g[x];o.t=e.t;o.d=e.d;o.mt=e.mt;o.m=e.m;o.w=e.w;o.p=e.p;o.so=g.s;o.s=e.s;return o}
 function dxl(){if(L!=='en')return DX;return DX.map(function(o,i){var e=DXE[i];if(!e)return o;return {t:e.t,k:e.k+' '+o.k,c:o.c.map(function(c,j){var x=e.c[j];return [x[0],x[1],x[2],c[3],c[4]]})}})}
-function applyL(){var r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+function applyL(){var r=document.documentElement,dark=r.dataset.theme==='dark';
 $('lang').textContent=L==='es'?'English':'Español';$('theme').textContent=dark?T('Modo blanco'):T('Modo negro');
 document.querySelector('#home h1').textContent=T('¿Qué se descompuso hoy?');
 document.querySelector('#home .sub').textContent=T('Aprende a arreglarlo tú, paso a paso y sin regaños. Para tu casa y tu carro, con tu modelo.');
@@ -410,10 +409,10 @@ $('glp').addEventListener('click',function(){$('glp').hidden=true});
 document.addEventListener('click',function(e){if(!e.target.closest('.gl')&&!e.target.closest('#glp'))$('glp').hidden=true});
 $("q").addEventListener("input",list);
 $("theme").addEventListener("click",function(){
- var r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
- r.dataset.theme=dark?"light":"dark";$("theme").textContent=dark?T("Modo negro"):T("Modo blanco");
+ var r=document.documentElement,dark=r.dataset.theme==="dark";
+ r.dataset.theme=dark?"light":"dark";try{localStorage.setItem("patodo_theme",r.dataset.theme)}catch(e){}$("theme").textContent=dark?T("Modo negro"):T("Modo blanco");
 });
-if(matchMedia("(prefers-color-scheme: dark)").matches)$("theme").textContent=T("Modo blanco");
+try{if(localStorage.getItem("patodo_theme")==="dark"){document.documentElement.dataset.theme="dark";$("theme").textContent=T("Modo blanco")}}catch(e){}
 list();
 </script>
 <script>
