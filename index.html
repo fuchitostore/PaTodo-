@@ -609,7 +609,13 @@ zoom();retext();list();
 })();
 </script>
 <script>(function(){var g=document.getElementById('gear'),pn=document.getElementById('setp');g.addEventListener('click',function(e){e.stopPropagation();pn.hidden=!pn.hidden;g.setAttribute('aria-expanded',String(!pn.hidden))});document.addEventListener('click',function(e){if(!pn.hidden&&!e.target.closest('#setw')){pn.hidden=true;g.setAttribute('aria-expanded','false')}})})();</script>
-<script>try{if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}</script>
+<script>(function(){var el=document.createElement('div');el.id='offs';el.style.cssText='font-size:13px;padding:4px 2px;max-width:200px';var pn=document.getElementById('setp');if(pn)pn.appendChild(el);
+function say(t){el.textContent=t}
+function chk(n){if(!window.caches){say('⚠ Sin internet: no disponible aquí');return}
+caches.match('index.html',{ignoreSearch:true}).then(function(m){if(m)say('✅ Lista para usar sin internet');else if(n<4)setTimeout(function(){chk(n+1)},2500);else say('⚠ Aún no guardada: abre con internet y espera')})}
+try{if(!('serviceWorker' in navigator)||location.protocol.indexOf('http')!==0){say('⚠ Sin internet: no disponible aquí');return}
+say('Revisando uso sin internet…');
+navigator.serviceWorker.register('sw.js').then(function(){return navigator.serviceWorker.ready}).then(function(){chk(0)}).catch(function(){say('⚠ No se pudo activar (revisa sw.js)')})}catch(e){say('⚠ No se pudo activar')}})();</script>
 <script>(function(){var Z=function(a,b){return L==='en'?b:a},KF='patodo_fb',FB={};try{FB=JSON.parse(localStorage.getItem(KF)||'{}')}catch(e){}
 function fbh(){var v=FB[cur.id];return '<div class="need" id="fb"><b>'+Z('¿Te sirvió esta guía?','Did this guide help?')+'</b>'+(v?'<p>'+(v==='y'?Z('Qué bueno. Ya sabes hacerlo.','Great. Now you know how.'):Z('Gracias. Prueba el diagnóstico o llama a un profesional.','Thanks. Try the diagnosis tool or call a professional.'))+'</p>':'<button class="fbb" data-f="y" type="button">'+Z('Sí','Yes')+'</button> <button class="fbb" data-f="n" type="button">'+Z('No','No')+'</button>')+'</div>'}
 var _d=draw;draw=function(){_d();document.getElementById('guide').insertAdjacentHTML('beforeend',fbh())};
